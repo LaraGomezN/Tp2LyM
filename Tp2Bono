@@ -1,0 +1,113 @@
+using gold.structures.automaton.*
+using gold.visualization.automaton.*
+
+procedure main(args:String[]) begin
+	Q := {⟨p_1,p_2,p_3⟩ | 0 <= p_1 <= 9,0 <= p_2 <= 9,0 <= p_3 <= 4}
+	Σ:={'0','1','2','3','4','5','6','7','8','9'}
+	Γ:={'0','1','2','3','4','5','6','7','8','9'}∪{'+','-','='}
+	q1:=⟨0,0,0⟩
+	F:= {⟨p_1,p_2,p_3⟩ | 0 <= p_1 <= 9,0 <= p_2 <= 9,1 <= p_3<=2}
+	
+	A:= GDeterministicTransducer(Q,Σ,Γ,q1,F,δ,g,h)
+	GAutomataFrame.show(A)
+	
+end
+
+function δ(⟨p1,p2,p3⟩,p) begin
+	if  p3=0 then
+		if p='1' then
+			return ⟨1,p2,1⟩
+		elseif p='2' then
+			return ⟨2,p2,1⟩
+		elseif p='3' then
+			return ⟨3,p2,1⟩
+		elseif p='4' then
+			return ⟨4,p2,1⟩
+		elseif p='5' then
+			return ⟨5,p2,1⟩
+		elseif p='6' then
+			return ⟨6,p2,1⟩
+		elseif p='7' then
+			return ⟨7,p2,1⟩
+		elseif p='8' then
+			return ⟨8,p2,1⟩
+		elseif p='9' then
+			return ⟨9,p2,1⟩
+		elseif p='0' then
+			return ⟨0,p2,1⟩
+
+		end
+	elseif p3=1 then
+		if p='1' then
+			return ⟨p1,1,2⟩
+		elseif p='2' then
+			return ⟨p1,2,2⟩
+		elseif p='3' then
+			return ⟨p1,3,2⟩
+		elseif p='4' then
+			return ⟨p1,4,2⟩
+		elseif p='5' then
+			return ⟨p1,5,2⟩
+		elseif p='6' then
+			return ⟨p1,6,2⟩
+		elseif p='7' then
+			return ⟨p1,7,2⟩
+		elseif p='8' then
+			return ⟨p1,8,2⟩
+		elseif p='9' then
+			return ⟨p1,9,2⟩
+		elseif p='0' then
+			return ⟨p1,0,2⟩
+		
+		end
+	elseif p3=2 then
+		if p='1' then
+			return ⟨p2,1,2⟩
+		elseif p='2' then
+			return ⟨p2,2,2⟩
+		elseif p='3' then
+			return ⟨p2,3,2⟩
+		elseif p='4' then
+			return ⟨p2,4,2⟩
+		elseif p='5' then
+			return ⟨p2,5,2⟩
+		elseif p='6' then
+			return ⟨p2,6,2⟩
+		elseif p='7' then
+			return ⟨p2,7,2⟩
+		elseif p='8' then
+			return ⟨p2,8,2⟩
+		elseif p='9' then
+			return ⟨p2,9,2⟩
+		elseif p='0' then
+			return ⟨p2,0,2⟩
+		
+		end
+	else
+		return ⟨0,0,4⟩
+	end
+end
+
+function h(⟨p1,p2,p3⟩,p) begin
+	return λ
+	
+end
+function g(⟨p1,p2,p3⟩) begin
+		if p3=1 then
+			return String.valueOf(p1)
+		elseif p3=2 then
+			if p2>p1 then
+			return String.valueOf("+")+String.valueOf(p2-p1)
+			elseif p1>p2 then
+			return String.valueOf("-")+String.valueOf(p1-p2)
+			elseif p1=p2 then
+			return String.valueOf("=")
+			end
+			
+		else
+			return λ	
+		end
+		 
+
+	
+end
