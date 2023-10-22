@@ -1,0 +1,240 @@
+//TokenizaciÃ³n
+
+//PENUP -> U
+//PENDOWN -> D
+//FORWARD/FD -> F
+//RIGTH/RT -> R
+//LEFT/LT -> L
+//REPEAT -> T
+//NÃºmeros decimales -> N
+//[ -> [
+//] -> ]
+//SIEMPRE DESPUES DE COLOCAR UN NUMERO SE DEBE COLOCAR UN ESPACIO DESPUES IMPORTANTE!
+
+
+
+using gold.**
+
+procedure main(args:String[]) begin
+	estados := {"TRASH","INICIO","P","PE","PEN","PENU","PENUP","PEND","PENDO","PENDOW","PENDOWN","R","RI","RIG","RIGH","RIGHT","RT","L","LE","LEF","LEFT","LT",
+					"F","FO","FOR","FORW","FORWA","FORWAR","FORWARD","FD","RE","REP","REPE","REPEA","REPEAT",
+					"NUMBER","NUMBERF","NUMBERP","DECIMAL","DECIMALF","]","["}
+	input := {'L','E','F','T','R','P','A','I','G','H','N','U','D','O','W','[',']','.',' ','0','1','2','3','4','5','6','7','8','9'}
+	output := {'U','D','F','R','L','T','N','[',']'}
+	inicio := "INICIO"
+	fin := {"PENUP","PENDOWN","RIGHT","LEFT","FORWARD","REPEAT","DECIMALF","NUMBERF","[","]","INICIO"}
+	
+	A := GDeterministicTransducer(estados, input, output, inicio, fin, transiciones, g, h)
+	GAutomataFrame.show(A)
+end
+
+function transiciones(estado, caracter) begin
+	
+	//NUMEROS
+	if estado = "INICIO" && caracter in {'0','1','2','3','4','5','6','7','8','9'} then
+		return "NUMBER"
+	elseif estado = "NUMBER" && caracter in {'0','1','2','3','4','5','6','7','8','9'} then
+		return "NUMBER"
+	elseif estado = "NUMBER" && caracter = ' ' then
+		return "NUMBERF"
+		
+	elseif estado = "NUMBERF" && caracter = 'F' then
+		return "F"	
+	elseif estado = "NUMBERF" && caracter = 'R' then
+		return "R"	
+	elseif estado = "NUMBERF" && caracter = 'L' then
+		return "L"	
+	elseif estado = "NUMBERF" && caracter = 'P' then
+		return "P"	
+
+			
+	elseif estado = "NUMBER" && caracter = '.' then
+		return "NUMBERP"
+	elseif estado = "NUMBERP" && caracter in {'0','1','2','3','4','5','6','7','8','9'} then
+		return "DECIMAL"
+	elseif estado = "DECIMAL" && caracter in {'0','1','2','3','4','5','6','7','8','9'} then
+		return "DECIMAL"
+	elseif estado = "DECIMAL" && caracter = ' ' then
+		return "DECIMALF"
+		
+	elseif estado = "DECIMALF" && caracter = 'F' then
+		return "F"	
+	elseif estado = "DECIMALF" && caracter = 'R' then
+		return "R"	
+	elseif estado = "DECIMALF" && caracter = 'L' then
+		return "L"	
+	elseif estado = "DECIMALF" && caracter = 'P' then
+		return "P"	
+
+		
+	end
+		
+	if caracter = ' ' then
+		return "INICIO"
+		
+	//PENDOWN
+	elseif estado = "INICIO" && caracter = 'P' then
+		return "P"
+	elseif estado = "P" && caracter = 'E' then
+		return "PE"
+	elseif estado = "PE" && caracter = 'N' then
+		return "PEN"
+	elseif estado = "PEN" && caracter = 'D' then
+		return "PEND"
+	elseif estado = "PEND" && caracter = 'O' then
+		return "PENDO"
+	elseif estado = "PENDO" && caracter = 'W' then
+		return "PENDOW"
+	elseif estado = "PENDOW" && caracter = 'N' then
+		return "PENDOWN"	
+		
+		
+	elseif estado = "PENDOWN" && (caracter = 'P') then
+		return "P"
+	elseif estado = "PENDOWN" && (caracter = 'R') then
+		return "R"
+	elseif estado = "PENDOWN" && (caracter = 'L') then
+		return "L"
+	elseif estado = "PENDOWN" && (caracter = 'F') then
+		return "F"
+
+		
+	//PENUP
+	elseif estado = "PEN" && caracter = 'U' then
+		return "PENU"
+	elseif estado = "PENU" && caracter = 'P' then
+		return "PENUP"
+
+
+	elseif estado = "PENUP" && (caracter = 'P') then
+		return "P"
+	elseif estado = "PENUP" && (caracter = 'R') then
+		return "R"
+	elseif estado = "PENUP" && (caracter = 'L') then
+		return "L"
+	elseif estado = "PENUP" && (caracter = 'F') then
+		return "F"
+		
+	//RIGHT
+	elseif estado = "INICIO" && caracter = 'R' then
+		
+		
+		return "R"
+	elseif estado = "R" && caracter = 'I' then
+		return "RI"
+	elseif estado = "R" && caracter = 'T' then
+		return "RIGHT"
+	elseif estado = "RI" && caracter = 'G' then
+		return "RIG"
+	elseif estado = "RIG" && caracter = 'H' then
+		return "RIGH"
+	elseif estado = "RIGH" && caracter = 'T' then
+		return "RIGHT"
+		
+	
+	elseif estado = "RIGHT" && caracter in {'0','1','2','3','4','5','6','7','8','9'} then
+		return "NUMBER"
+		
+	//LEFT
+	elseif estado = "INICIO" && caracter = 'L' then
+		return "L"
+	elseif estado = "L" && caracter = 'E' then
+		return "LE"
+	elseif estado = "L" && caracter = 'T' then
+		return "LEFT"
+	elseif estado = "LE" && caracter = 'F' then
+		return "LEF"
+	elseif estado = "LEF" && caracter = 'T' then
+		return "LEFT"
+		
+	elseif estado = "LEFT" && caracter in {'0','1','2','3','4','5','6','7','8','9'} then
+		return "NUMBER"
+	
+	//FORWARD
+	elseif estado = "INICIO" && caracter = 'F' then
+		return "F"
+	elseif estado = "F" && caracter = 'D' then
+		return "FORWARD"
+	elseif estado = "F" && caracter = 'O' then
+		return "FO"
+	elseif estado = "FO" && caracter = 'R' then
+		return "FOR"
+	elseif estado = "FOR" && caracter = 'W' then
+		return "FORW"
+	elseif estado = "FORW" && caracter = 'A' then
+		return "FORWA"
+	elseif estado = "FORWA" && caracter = 'R' then
+		return "FORWAR"
+	elseif estado = "FORWAR" && caracter = 'D' then
+		return "FORWARD"
+		
+		
+	elseif estado = "FORWARD" && caracter in {'0','1','2','3','4','5','6','7','8','9'} then
+		return "NUMBER"
+		
+	//REPEAT
+	elseif estado = "R" && caracter = 'E' then
+		return "RE"
+	elseif estado = "RE" && caracter = 'P' then
+		return "REP"
+	elseif estado = "REP" && caracter = 'E' then
+		return "REPE"
+	elseif estado = "REPE" && caracter = 'A' then
+		return "REPEA"
+	elseif estado = "REPEA" && caracter = 'T' then
+		return "REPEAT"
+		
+	elseif estado = "REPEAT" && caracter in {'0','1','2','3','4','5','6','7','8','9'} then
+		return "NUMBER"
+		
+	//PARENTESIS
+	elseif caracter = '[' then
+		return "["
+	elseif caracter = ']' then
+		return "]"
+	elseif estado = "[" && caracter = 'F' then
+		return "F"	
+	elseif estado = "[" && caracter = 'R' then
+		return "R"	
+	elseif estado = "[" && caracter = 'L' then
+		return "L"	
+	elseif estado = "[" && caracter = 'P' then
+		return "P"	
+		
+	
+
+	else
+		return "TRASH"
+		
+	end
+end
+
+function g(estado) begin
+	if estado = "PENDOWN" then
+		return 'D'	
+	elseif estado = "PENUP" then
+		return 'U'
+	elseif estado = "RIGHT" then
+		return 'R'
+	elseif estado = "LEFT" then
+		return 'L'
+	elseif estado = "FORWARD" then
+		return 'F'
+	elseif estado = "REPEAT" then
+		return 'T'
+	elseif estado = "DECIMALF" || estado = "NUMBERF" then
+		return 'N'
+	elseif estado = "[" then
+		return '['
+	elseif estado = "]" then
+		return ']'
+		
+	else
+		return Î»
+		
+	end
+end
+
+function h(estado, caracter) begin
+	return Î»
+end
